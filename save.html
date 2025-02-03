@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            background-color: red;
+            display: flex;
+        }
+        .container .item{
+            padding: 10px;
+            flex: 1;
+        }
+        .grid-container{
+            display: grid;
+            background-color: salmon;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 10px;
+        }
+        .grid-container .item{
+            padding: 10px;
+            background-color: yellow;
+            flex: 1;
+        }
+        @media screen and (max-width: 768px){
+            .container{
+                flex-direction: column;
+            }
+            .grid-container{
+                grid-template-columns: 1fr 1fr;
+            }
+            
+        }
+        @media screen and (max-width: 640px){
+            .grid-container{
+                grid-template-columns: 1fr;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--hello world breakpoint--> 
+        <div class="item">item1</div>
+        <div class="item">item2</div>
+    </div>
+    <div class="grid-container">
+        <div class="grid-item">item1</div>
+        <div class="grid-item">item2</div>
+        <div class="grid-item">item3</div>
+        <div class="grid-item">item4</div>
+        <div class="grid-item">item5</div>
+        <div class="grid-item">item6</div>
+
+    </div>
+    <!--<picture>
+        <source media="(min-width: 768px)" srcset="https://picsum.photos/200">
+        <img src="https://picsum.photos/200/300" alt="">
+    </picture>-->
+</body>
+</html>

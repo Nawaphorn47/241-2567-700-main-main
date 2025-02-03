@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            Register form
+        </div>
+        <div class="flex form-input">
+    <div class="header-form">ชื่อ</div>
+    <input class="form" name="firstName" type="text">
+</div>
+<div class="flex form-input">
+    <div class="header-form">นามสกุล</div>
+    <input class="form" name="lastName" type="text">
+</div>
+<div class="flex form-input">
+    <div class="header-form">อายุ</div>
+    <input class="form" name="age" type="number" min="0" max="100">
+</div>
+<div class="flex gender form-input">
+    <div class="header-form">เพศ</div>
+    <input name="gender" type="radio" value="ชาย"> ชาย
+    <input name="gender" type="radio" value="หญิง"> หญิง
+</div>
+<div class="form-input">
+    <div>งานอดิเรก</div>
+    <div>
+        <input name="interest" type="checkbox" value="อ่านหนังสือ"> อ่านหนังสือ
+        <input name="interest" type="checkbox" value="ดูหนัง"> ดูหนัง
+        <input name="interest" type="checkbox" value="ฟังเพลง"> ฟังเพลง
+    </div>
+</div>
+<div class="form-input">
+    <div>คำอธิบาย</div>
+    <textarea name="description"></textarea>
+</div>
+<div class="center">
+    <button type="button" class="button" onclick="submitData()">ส่งข้อมูล</button>
+</div>
+    </div>
+    <script src="index.js">
+    </script>
+</body>
+
+</html>
