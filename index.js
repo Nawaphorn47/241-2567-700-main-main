@@ -1,28 +1,94 @@
-function submitData() {
+const validateData = (userData) => {
+    let errors = [];
+    if (!userData.firstName) {  // เช็คว่าช่องว่างจริงๆ
+        errors.push('กรุณากรอกชื่อ');
+    }
+    if (!userData.firstName) {
+        errors.push('กรุณากรอกชื่อ')
+    }
+    if (!userData.lastName) {
+        errors.push('กรุณากรอกนามสกุล')
+    }
+    if (!userData.age) {
+        errors.push('กรุณากรอกอายุ')
+    }
+    if (!userData.gender) {
+        errors.push('กรุณากรอกชื่อเพศ')
+    }
+    if (!userData.interest) {
+        errors.push('กรุณากรอกชื่อความสนใจ')
+    }
+    if (!userData.description) {
+        errors.push('กรุณากรอกคำอธิบาย')
+    }
+    return errors;
+};
+
+
+const submitData = async () => {
     let firstNameDOM = document.querySelector('input[name="firstName"]');
     let lastNameDOM = document.querySelector('input[name="lastName"]');
     let ageDOM = document.querySelector('input[name="age"]');
-    let genderDOM = document.querySelector('input[name="gender"]:checked');  // ค่าที่ถูกเลือกจาก radio button
-    let interestDOMs = document.querySelectorAll('input[name="interest"]:checked');  // เลือกเฉพาะที่ถูกเลือกจาก checkbox
+    let genderDOM = document.querySelector('input[name="gender"]:checked') || {};
+    let interestDOMs = document.querySelectorAll('input[name="interest"]:checked') || {};
     let descriptionDOM = document.querySelector('textarea[name="description"]');
-    
-    let interest = '';
-    for (let i = 0; i < interestDOMs.length; i++) {
-        interest += interestDOMs[i].value;
-        if (i !== interestDOMs.length - 1) {
-            interest += ','; 
+    let messageDOM = document.getElementById('message');
+
+    try {
+        let interest = '';
+        for (let i = 0; i < interestDOMs.length; i++) {
+            interest += interestDOMs[i].value;
+            if (i !== interestDOMs.length - 1) {
+                interest += ',';
+            }
         }
+
+        let userData = {
+            firstName: firstNameDOM?.value,
+            lastName: lastNameDOM?.value,
+            age: ageDOM?.value,
+            gender: genderDOM?.value,
+            interests: interest,
+            description: descriptionDOM?.value
+        };
+
+        console.log('submitData', userData);
+
+    /*   const errors = validateData(userData);
+
+        if (errors.length > 0) {
+            throw {
+                message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                errors: errors
+            };
+        }
+*/
+        const response = await axios.post('http://localhost:8000/users', userData);
+        console.log('response', response.data);
+        messageDOM.innerText = 'บันทึกข้อมูลเรียบร้อย';
+        messageDOM.className = 'message success';
+    } catch (error) {
+        console.log('error message', error.message);
+        console.log('error', error.errors);
+
+        if (error.response) {
+            console.log('error.response' , error.response.data.message);
+            error.message = error.response.data.message;
+            error.errors = error.response.data.errors;
+        }
+
+
+        let htmlData = '<div>';
+        htmlData += `<div> ${error.message} </div>`
+        htmlData += '<ul>'
+        for (let i = 0; i < error.errors.length; i++) {
+            htmlData += `<li> ${error.errors[i]} </li>`
+        }
+
+        htmlData += '</div>'
+        htmlData += '</ul>'
+
+        messageDOM.innerHTML = htmlData;
+        messageDOM.className = 'message danger';
     }
-
-
-    let userData = {
-        firstName: firstNameDOM.value,
-        lastName: lastNameDOM.value,
-        age: ageDOM.value,
-        gender: genderDOM ? genderDOM.value : '',  
-        interest: interest,  
-        description: descriptionDOM.value  
-    };
-
-    console.log("submitData", userData);
-}
+};

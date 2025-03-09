@@ -55,6 +55,20 @@
             width: 100%;
             height: 40px;
         }
+        .message{
+            margin-bottom: 20px;
+            padding:10px;
+            background-color: lightgray;
+            display: none;
+        }
+        .message.success {
+            background-color: lightgreen;
+            display: block;
+        }
+        .message.danger {
+            background-color: red;
+            display: block;
+        }
 
 @media screen and (max-width: 768px) {
     .flex {
