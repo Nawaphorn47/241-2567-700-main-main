@@ -1,62 +1,98 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const bodyParset = require('body-parser');
 const mysql = require('mysql2/promise');
-const cors = require('cors');
 const app = express();
- 
+const cors = require('cors');
+
 const port = 8000;
-app.use(bodyParser.json());
+
+
+app.use(bodyParset.json());
 app.use(cors());
- 
-let users = []
- 
-let conn = null
+
+let users = [];
+
+
+//เริ่มต้นการเชื่อมต่อกับ MySQL
+let conn = null;
 const initMySQL = async () => {
-    conn = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: 'webdb',
-        port: 8830
+     conn = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: 'root',
+            database: 'webdb',
+            port: 8830
     })
-}
+};
 
 const validateData = (userData) => {
     let errors = [];
-    
-    if (!userData.firstName) {  // เช็คว่าช่องว่างจริงๆ
+    if (!userData.firstName) {
         errors.push('กรุณากรอกชื่อ');
     }
-    if (!userData.firstName) {
-        errors.push('กรุณากรอกชื่อ')
-    }
     if (!userData.lastName) {
-        errors.push('กรุณากรอกนามสกุล')
+        errors.push('กรุณากรอกนามสกุล');
     }
     if (!userData.age) {
-        errors.push('กรุณากรอกอายุ')
+        errors.push('กรุณากรอกอายุ');
     }
     if (!userData.gender) {
-        errors.push('กรุณากรอกชื่อเพศ')
+        errors.push('กรุณาเลือกเพศ');
     }
-    if (!userData.interest) {
-        errors.push('กรุณากรอกชื่อความสนใจ')
+    if (!userData.interests) {
+        errors.push('กรุณาเลือกความสนใจ');
     }
     if (!userData.description) {
-        errors.push('กรุณากรอกคำอธิบาย')
+        errors.push('กรุณากรอกคำอธิบาย');
     }
     return errors;
-};
- 
-// path = GET /users สำหรับ get users ทั้งหมดที่บันทึกไว้
-app.get('/users', async (req, res) => {
-    const results = await conn.query('SELECT * FROM users')
-    res.json(results[0])
-})
- 
-// path = POST /users สำหรับสร้าง users ใหม่บันทึกเข้าไป
-app.post('/users', async (req, res) => {
-   
+}
+
+// app.get('/testdb', (req, res) => {
+//    let conn = mysql.createConnection({
+//         host: 'localhost',
+//         user: 'root',
+//         password: '5432',
+//         database: 'test',
+//         port: 8830
+//     }).then(conn => {
+//         conn
+//         .query('SELECT * FROM users')
+//         .then((result)=>{
+//             res.json(result[0])
+//         })
+//         .catch((error) => {
+//             console.log(error, error.message);
+//             res.status(500).json({error: 'Error fetching users'})
+            
+//         });
+//     });
+// });
+
+/*
+app.get('/testdbnew/',async (req, res) => {
+
+    try{
+      const result = await conn.query('SELECT * FROM users');
+    res.json(result[0]);
+    } catch (error) {
+        console.log(error, error.message);
+        res.status(500).json({error: 'Error fetching users'})
+    }
+    
+});
+*/
+
+
+// path:GET  /users ใช้สำหรับแสดงข้อมูล user ทั้งหมด
+app.get('/users',async (req, res) => { 
+    const result = await conn.query('SELECT * FROM users');
+    res.json(result[0])
+});
+
+
+// path:Post /user ใช้สำหรับสร้างข้อมูล user ใหม่
+app.post('/users',async (req, res) => {    
     try{
         let user = req.body;
         const errors = validateData(user)
@@ -64,108 +100,134 @@ app.post('/users', async (req, res) => {
             throw{
                 statusCode: 400,
                 message: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                errors: results[0]
+                errors: errors
             }
         }
-        const results = await conn.query('INSERT INTO users SET ?', user)
+        const result = await conn.query('INSERT INTO users SET ?', user);
         res.json({
-            message: 'Create user successfully',
-            data: results[0]
-        })
-    }catch(error){
-        const errorMessage = error.message || 'something went wrong';
+            message: 'Create new user successfully',
+            data: result[0]
+        });
+    }catch (error) {
+        const errorMessage = error.message || 'Something went wrong';
         const errors = error.errors || [];
-        console.error = error.errors('error ,essage:',error.message)
+        console.error('error message:', error.message)
         res.status(500).json({
-            message: errorMessage,
-            errors: errors
-        })
-    }
+          message :errorMessage,
+          errors: errors    
+          //errorMessage : error.message
+        })        
+    }   
 })
- 
-// path = GET /users/:id สำหรับดึง users รายคนออกมา
-app.get('/users/:id',async (req, res) => {
 
+
+// path:GET  /users/:id สำหรับดึงข้อมูล user รายคนออกมา
+app.get('/users/:id',async (req, res) => { 
     try{
-        let id = req.params.id;
-        const results = await conn.query('SELECT * FROM users WHERE id = ?',id)
-        if (results[0].lenght == 0) {
-            throw {statusCode: 404,message: 'user not found'}
-        }
-        res.json(results[0][0])
-
-
-    }catch(error){
-        console.error('error: ', error.message)
-        let statusCode = error.statusCode || 500
-        res.status(500).json({
-            message: 'something went wrong',
-            errorMessage: error.message
-
+   let id = req.params.id;
+   //ค้นหา user หรือ index ของ user ที่ต้องการดึงข้อมูล
+   const results = await conn.query('SELECT * FROM users WHERE id = ?', id);
+   //let selectedIndex = users.findIndex(user => user.id == id);
+   if(results[0].length == 0){
+    throw {statusCode: 404, message: 'User not found'};
+    //res.json(results[0][0])
+   }//res.json(results[0][0])
+   /*else{
+    throw new Error('User not found');
+    res.status(404).json({
+    message: 'User not found'
     })
+   }*/
+   res.json(results[0][0]);  
+    //res.json(users[selectedIndex]);
+    }catch(error){
+        let statusCode = error.statusCode || 500;
+      //console.error('error :', error.message)
+      res.status(500).json({
+        message :'Something went wrong',
+        //errorMessage : error.message
+      })   
+    }
+});
 
-}})
- 
- 
-//path: PUT /users/:id สำหรับแก้ไข users รายคน (ตาม id ที่บันทึกเข้าไป)
-app.put('/users/:id',async (req, res) => {
+
+
+// PUT /user/:id สำหรับแก้ไขข้อมูล user รายคน (ตาม id)
+app.put('/users/:id', async (req, res) => {
+    //let id = req.params.id;
+    //let updateUser = req.body;
     try{
         let id = req.params.id;
         let updateUser = req.body;
-        const results = await conn.query(
-            'UPDATE users SET ? WHERE id = ?',
-            [updateUser,id]
-        )
+        const result = await conn.query(
+            'UPDATE users SET ? WHERE id = ?', 
+            [updateUser,id]);
         res.json({
             message: 'Update user successfully',
-            data: results[0]
-        })
-        
-    }catch(error){
-        console.error('error: ', error.message)
+            data: result[0]
+        });
+    }catch (err) {
+        //console.error('error :', error.message)
         res.status(500).json({
-            message: 'something went wrong',
-            errorMessage: error.message
-    })
+          message :'Something went wrong',
+          //errorMessage : error.message
+        })        
+    }   
+    //let selectedIndex = users.findIndex(user => user.id == id);
+        //users[selectedIndex].firstname = updateUser.firstname || users[selectedIndex].firstname;
+        //users[selectedIndex].lastname = updateUser.lastname || users[selectedIndex].lastname;
+        //users[selectedIndex].age = updateUser.age || users[selectedIndex].age;
+        //users[selectedIndex].gender = updateUser.gender || users[selectedIndex];
 
-}
- 
-        users[selectedIndex].firstname = updateUser.firstname || users[selectedIndex].firstname
-        users[selectedIndex].lastname = updateUser.lastname || users[selectedIndex].lastname
-        users[selectedIndex].age = updateUser.age || users[selectedIndex].age
-        users[selectedIndex].gender = updateUser.gender || users[selectedIndex].gender
-   
-    res.json({
+    /*res.json({
         message: 'Update user successfully',
-        data: {
+        data:{
             user: updateUser,
-            indexUpdated: selectedIndex
+            index: selectedIndex
         }
-    })
-})
+    })*/
+});
  
-//path: DELETE /users/:id สำหรับลบ users รายคน (ตาม id ที่บันทึกเข้าไป)
-app.delete('/users/:id',async (req, res) => {
+
+//path: Delete /user/:id ใช้สำหรับลบข้อมูล user โดยใช้ id ในการระบุ
+app.delete('/users/:id', async (req, res) => {
     try{
         let id = req.params.id;
-        const results = await conn.query('DELETE from users WHERE id = ?',id)
+        //let updateUser = req.body;
+        const result = await conn.query('DELETE from users WHERE id = ?', id)
         res.json({
             message: 'Delete user successfully',
-            data: results[0]
-        })
-        
-    }catch(error){
-        console.error('error: ', error.message)
+            data: result[0]
+        });
+    }catch (err) {
+        //console.error('error :', error.message)
         res.status(500).json({
-            message: 'something went wrong',
-            errorMessage: error.message
-    })
-
-}
+          message :'Something went wrong',
+          //errorMessage : error.message
+        })        
+    }   
+    });
+    
+    ///let id = req.params.id;
+    /*let selectedIndex = users.findIndex(user => user.id == id);
+    //ลบ
+    users.splice(selectedIndex, 1);
+    res.json({
+        message: 'Delete user successfully',
+        index: selectedIndex
+    });
+});*/
+app.listen(port,async (req, res) => {
+    await initMySQL();
+  console.log('Http Server is running on port' + port);
 })
- 
-app.listen(port, async (req, res) => {
-    await initMySQL()
-    console.log('Http Server is running on port' + port)
-});
 
+
+
+/*
+GET /users สำหรับ get users ทั้งหมดที่บันทึกไว้
+POST /user สำหรับ create user ใหม่บันทึกเข้าไป
+GET /user/:id สำหรับดึง user รายคนออกมาดู
+PUT /user/:id สำหรับแก้ไขข้อมูล user รายคน (ตาม id)
+DELETE /user/:id สำหรับลบ user รายคน (ตาม id)
+*/
