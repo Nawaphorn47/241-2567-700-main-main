@@ -217,11 +217,9 @@ app.delete('/users/:id', async (req, res) => {
         index: selectedIndex
     });
 });*/
-app.listen(port,async (req, res) => {
-    await initMySQL();
-  console.log('Http Server is running on port' + port);
-})
-
+app.listen(port, () => {
+    console.log(` Server is running on http://localhost:${port}`);
+});
 
 
 /*

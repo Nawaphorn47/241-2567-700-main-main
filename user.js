@@ -26,7 +26,7 @@ const loadData = async () => {
                 <a href='idex1.html?id=${user.id}'><button>Edit</button></a>
                 <button class='delete' data-id='${user.id}'>Delete</button>
                 </a>
-            </td>
+            </td>  
         </tr>`;
     }
     userDOM.innerHTML = htmlData;

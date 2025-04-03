@@ -1,196 +1,165 @@
-/*ส่วนนี้คือCSS */
-        /*ใช้สำหรับแต่ง (id class)  */
-        @font-face {
-            font-family: 'Kanit';
-            src: url('./Kanit/Kanit-Regular.ttf')
-        }
+/* ส่วนนี้คือ CSS สำหรับธีมสีเขียว */
+@font-face {
+    font-family: 'Kanit';
+    src: url('./Kanit/Kanit-Regular.ttf')
+}
 
-        body {
-            background-color: #FBF6E9;
-            font-family: 'Kanit';
-            font-size: 14px;
-        }
+body {
+    background-color: #F0F7E6; /* สีพื้นหลังเขียวอ่อน */
+    font-family: 'Kanit';
+    font-size: 14px;
+}
 
-        .container{
-            width: 100%;
-            max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
-            background-color: #E3F0AF;
-            padding: 20px;
-            box-sizing: border-box;
-            border-radius: 10px;
-        }
+.container {
+    width: 100%;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E1F5D6; /* สีเขียวอ่อน */
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #4CAF50; /* เส้นขอบเขียว */
+}
 
-        .small-button {
-            display: inline-block;
-            padding: 5px 8px; /* ลด padding */
-            background-color: #667BC6;
-            color: white;
-            text-decoration: none;
-            font-size: 12px; /* ลดขนาดฟอนต์ */
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+/* ปุ่มขนาดเล็ก */
+.small-button, .small-button1 {
+    display: inline-block;
+    padding: 5px 8px;
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-        }
+.small-button:hover, .small-button1:hover {
+    transform: scale(1.05);
+    background-color: #388E3C; /* สีเขียวเข้ม */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); 
+}
 
-        .small-button:hover {
-            transform: scale(1.05);
-            background-color: #D17D98; 
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-        }
+.header {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 300;
+    color: #2E7D32; /* สีเขียวเข้ม */
+}
 
-        .small-button1 {
-            display: inline-block;
-            padding: 5px 8px; /* ลด padding */
-            background-color: #667BC6;
-            color: white;
-            text-decoration: none;
-            font-size: 12px; /* ลดขนาดฟอนต์ */
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+/* ฟอร์ม */
+input.form, textarea {
+    border: 1px solid #4CAF50;
+    width: 100%;
+    background-color: #F8FFE8; /* สีพื้นฟอร์มเขียวอ่อน */
+}
 
-        }
+.button {
+    border: 2px solid #2E7D32;
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    width: 50%;
+    height: 40px;
+    border-radius: 4px;
+}
 
-        .small-button1:hover {
-            transform: scale(1.05); 
-            background-color: #D17D98;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
-        }
+.button:hover {
+    transform: scale(1.05); 
+    background-color: #388E3C; /* สีเขียวเข้ม */
+    transition: transform 0.2s ease, opacity 0.3s ease;
+}
 
-        .header{
-            font-size: 30px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
+/* ข้อความแจ้งเตือน */
+.message {
+    margin-bottom: 20px;
+    padding: 10px;
+    margin-top: 20px;
+    display: none;
+    border-radius: 4px;
+}
 
-        .header-form{
-            width: 140px;
-        }
-        .flex{
-            display: flex;
-            margin-bottom: 10px;
-        }
+.message.success {
+    background-color: #C8E6C9; /* สีเขียวอ่อน */
+    color: #1B5E20; /* สีเขียวเข้ม */
+    display: block;
+    border: 1px solid #A5D6A7;
+}
 
-        .form-inout{
-            margin-bottom: 30px;
-        }
+.message.danger {
+    background-color: #FFCDD2; /* สีแดงอ่อน */
+    color: #C62828; /* สีแดงเข้ม */
+    display: block;
+    border: 1px solid #EF9A9A;
+}
 
-        input.form, textarea{
-            border: 1px solid #1F7D53;
-            width: 100%;
-        }
+/* ตาราง */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #F1F8E9; /* สีเขียวอ่อน */
+    margin-left: 2px;
+    border-radius: 4px;
+}
 
-        .center{
-            text-align: center;
-        }
+tr:nth-child(even) {
+    background-color: #DCEDC8; /* สีเขียวอ่อนกว่า */
+}
 
-        .button{
-            border: 2px solid #1F7D53;
-            background-color: white; 
-            width: 50%;
-            height: 40px;
-            border-radius: 4px;
-        }
-        .button:hover{
-            transform: scale(1.05); 
-            background-color: #D9EAFD;
-            transition: transform 0.2s ease, opacity 0.3s ease;
-        }
-        .message{
-            margin-bottom: 20px;
-            padding: 10px;
-            margin-top: 20px;
-            background-color: #BB9CC0;
-            display: none;
-        }
+th, td {
+    border: 1px solid #C8E6C9; /* เส้นขอบเขียวอ่อน */
+    padding: 8px;
+    text-align: auto;
+}
 
-        .message.success{
-            background-color: #C1CFA1;
-            display:block;
-        }
-        .message.danger{
-            background-color: #E78F81;
-            display:block;
-        }
+th {
+    background-color: #66BB6A; /* สีเขียว */
+    color: white;
+    font-weight: 300;
+}
 
-        /* Users Management*/
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background:#FFFDF0; /* สีพื้นหลังของตาราง */
-            margin-left:2px;
-            border-radius: 4px;
-            
-        }
-        tr:nth-child(even) {
-            background-color: #E5D9F2; /* แถวที่เป็นเลขคู่ */
-        }
+tr:hover {
+    background-color: #E8F5E9; /* สีเขียวอ่อนเมื่อ hover */
+}
 
-        th, td {
-            border: 1px solid #ddd; 
-            padding: 8px;
-            text-align: auto;
-        }
+/* ปุ่มในตาราง */
+.actions button {
+    margin: 0 4px;
+    padding: 6px 12px;
+    border: none;
+    background-color: #66BB6A; /* สีเขียว */
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 30px;
+}
 
-        th {
-            background-color: #E3A5C7; /* สีสำหรับหัวข้อคอลัมน์ */
-            color: white;
-            font-weight: 300;
-        }
+.actions button:hover {
+    background-color: #43A047; /* สีเขียวเข้ม */
+    transform: scale(1.03); 
+}
 
+.actions a button {
+    background-color: #AED581; /* สีเขียวอมเหลือง */
+    color: #2E7D32;
+}
 
-        tr:hover {
-            background-color: #FDE2F3; /* สีเมื่อ hover */
-        }
+.actions a button:hover {
+    background-color: #9CCC65; /* สีเขียวอมเหลืองเข้ม */
+}
 
-        .actions {
-            white-space: nowrap; /* ป้องกันปุ่มเบียดกัน */
-        }
-
-        .actions button {
-            margin: 0 4px; /* เพิ่มระยะห่างระหว่างปุ่ม */
-            padding: 6px 12px;
-            border: none;
-            background-color: #E78F81; 
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-            margin-left: 30px;
-        }
-
-        .actions button:hover {
-            background-color: #FFB4A2; 
-            transform: scale(1.03); 
-            transition: transform 0.2s ease, opacity 0.3s ease;
-        }
-
-        .actions a button {
-            background-color: #FBF3B9; 
-            
-        }
-
-        .actions a button:hover {
-            background-color: #D9EAFD; 
-            transform: scale(1.03); 
-            transition: transform 0.2s ease, opacity 0.3s ease;
-        }
-
+/* Responsive Design */
 @media screen and (max-width: 768px) {
-    .flex{
+    .flex {
         flex-direction: column;
     }   
-    .header{
+    .header {
         font-size: 24px;
     }
-    .button{
+    .button {
         width: 100%;
     }
-    
-}   
+}
